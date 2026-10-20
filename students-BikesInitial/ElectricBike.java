@@ -1,5 +1,3 @@
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Model the common elements of an Electric bike (EB) that operates 
@@ -10,7 +8,8 @@ import java.util.ArrayList;
  */
 public class ElectricBike 
 {
-    //TODO: Complete this code
+    private char[] idBike = new char[6];
+
 
     /**
      * Constructor of class ElectricBike.
