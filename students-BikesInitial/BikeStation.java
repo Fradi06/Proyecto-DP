@@ -1,7 +1,3 @@
-import java.util.List;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * Models an Electric Vehicle Charging Station.
@@ -17,8 +13,24 @@ public class BikeStation
      * Constructor for objects of class BikeStation.
      * //TODO complete the JavaDoc comments
      */
+
+    /*
+        Requisitos de la clase BikeStation: - cada objeto de la clase BikeStation se caracteriza por tener, al menos, los siguientes 
+        campos: - idStation, identificador único de la estación. Está compuesto por 4 caracteres, 2 
+        letras que indican la ciudad (e.g. CC) y a continuación dos dígitos. Un ejemplo sería 
+        la estación CC01 (estación 01 de la ciudad de Cáceres). - location, localización en la que está la estación de bicicletas (será del tipo 
+        Location y en esta primera entrega serán indicadas en la demo que será 
+        entregada por los profesores de la asignatura), - docks conjunto de objetos de tipo Dock (dársena) que están en la estación de 
+        bicicletas. - 
+        esta estructura se mantendrá ordenada de acuerdo a un criterio de 
+        comparación de docks, que, en la Entrega Inicial será decreciente por su 
+        velocidad de carga. En caso de empate, de manera creciente por su tarifa 
+    de carga (céntimos de € / wh) y si hubiera otro empate, en orden creciente 
+    por su identificador.
+    */
     public BikeStation(  )
     {
+        
         //TODO: Complete this code
     }
 

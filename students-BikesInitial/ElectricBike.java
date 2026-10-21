@@ -1,4 +1,7 @@
 
+import java.util.List;
+
+
 /**
  * Model the common elements of an Electric bike (EB) that operates 
  * within the simulation, moving towards a target and potentially recharging.
@@ -9,6 +12,13 @@
 public class ElectricBike 
 {
     private char[] idBike = new char[6];
+    private EBCompany company;
+    private Location location;
+    private Location targetLocation;
+    private int idleCount;
+    private int batteryCapacity;
+    private List<Dock> docks;
+    
 
 
     /**
