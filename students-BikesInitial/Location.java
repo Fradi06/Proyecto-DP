@@ -1,4 +1,5 @@
 import java.util.*;
+import java.lang.Math;
 
 /**
  * Model a location in a two-dimensional grid city using (x, y) coordinates.
@@ -49,17 +50,31 @@ public class Location
      * using the Chebyshev distance (maximum of the absolute differences of the coordinates).
      * @param destination The required destination {@link Location}.
      * @return The number of movement steps.
-     */
+    */
+
+    /*Método capaz de proporcionar la distancia (método “distance”) entre la posición actual 
+    (valores  x  e  y  del  objeto Location) y una posición que se reciba por parámetro. Esta 
+    distancia será la distancia en línea recta entre la posición actual y la posición que se recibe 
+    por parámetro (es decir, el máximo valor absoluto de la diferencia entre las coordenadas x 
+    y las coordenadas y de ambas posiciones). 
+    Ejemplos:  
+    -  entre las posiciones p0 (0,0) y p1 (1,5) la distancia será 5: (el máximo valor 
+    absoluto entre los valores 1 (1-0)  y 5 (5-0) 
+    -  entre las posiciones p2 (6,6) y  p3 (5,2) la distancia será 4: (el máximo valor 
+    absoluto entre los valores -1 (5-6)  y -4 (2-6). */
+
     public int distance(Location destination)
     {
-         //TODO: Complete this code
-        return 0;
+        // supongo que se puede user la libreria math, sino elevamos a 2 para quitar el signo y luego raiz
+        int xAbsoluto = Math.abs(destination.x - x);
+        int yAbsoluto = Math.abs(destination.y - y);
+        return Math.max(xAbsoluto, yAbsoluto);
     }
     
     /**
      * Implement content equality for locations.
      * @param other The object to compare with.
-     * @return {@code true} if the other object is a {@link Location} and has the same x and y coordinates, {@code false} otherwise.
+     * @return {@code true} iddthe other object is a {@link Location} and has the same x and y coordinates, {@code false} otherwise.
      */
     @Override
     public boolean equals(Object other)
