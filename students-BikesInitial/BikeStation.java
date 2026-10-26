@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 /**
  * Models an Electric Vehicle Charging Station.
@@ -7,47 +8,65 @@
  */
 public class BikeStation
 {
-    //TODO: Complete this code
+    /* TODO
+    -  esta  estructura  se  mantendrá  ordenada  de  acuerdo  a  un  criterio  de 
+    comparación de docks, que, en la Entrega Inicial será decreciente por su 
+    velocidad de carga. En caso de empate, de manera creciente por su tarifa 
+    de carga (céntimos de € / wh) y si hubiera otro empate, en orden creciente 
+    por su identificador. 
+    */
 
-    /**
-     * Constructor for objects of class BikeStation.
-     * //TODO complete the JavaDoc comments
-     */
+    private String idStation;
+    private Location localizacion;
+    private ArrayList<Dock> docks;
+
+    public BikeStation(String idStation, Location localizacion, int numDocks) {
+        this.idStation = idStation;
+        this.localizacion = localizacion;
+        this.docks = new ArrayList<>();
+
+        for (int i = 0; i < numDocks; i++) { // num de docs para inicializar
+            this.docks.add(new Dock()); //no tiene contructor?
+        }
+
+    }
 
     /*
-        Requisitos de la clase BikeStation: - cada objeto de la clase BikeStation se caracteriza por tener, al menos, los siguientes 
-        campos: - idStation, identificador único de la estación. Está compuesto por 4 caracteres, 2 
-        letras que indican la ciudad (e.g. CC) y a continuación dos dígitos. Un ejemplo sería 
-        la estación CC01 (estación 01 de la ciudad de Cáceres). - location, localización en la que está la estación de bicicletas (será del tipo 
-        Location y en esta primera entrega serán indicadas en la demo que será 
-        entregada por los profesores de la asignatura), - docks conjunto de objetos de tipo Dock (dársena) que están en la estación de 
-        bicicletas. - 
-        esta estructura se mantendrá ordenada de acuerdo a un criterio de 
-        comparación de docks, que, en la Entrega Inicial será decreciente por su 
-        velocidad de carga. En caso de empate, de manera creciente por su tarifa 
-    de carga (céntimos de € / wh) y si hubiera otro empate, en orden creciente 
-    por su identificador.
-    */
-    public BikeStation(  )
-    {
-        
-        //TODO: Complete this code
-    }
+    La  clase  BikeStation  debe  implementarse con la siguiente funcionalidad como mínimo (cada 
+    grupo añadirá, si es el caso, la funcionalidad que crea necesaria):  
+    ●  Método que devuelve la localización donde está la estación de bicicletas. 
+    ●  Método que devuelve la colección docks. 
+    ●  Método que permite añadir un nuevo dock de tipo Dock a la colección docks. 
+    ●  Método que permite devolver un objeto de tipo Dock de la colección docks. */
 
-    /**
-     * Constructor for objects of class BikeStation.
-     * //TODO complete the JavaDoc comments
-     */
-    public BikeStation(String id, Location location)
-    {
-        //TODO: Complete this code
-    }
-    
     /**
      * Retrieves the first free {@link Dock} found at the station.
      * @return A free {@link Dock}, or possibly throws an exception if none are found (depending on stream implementation details).
      * **Note: The implementation assumes at least one free dock exists if called.**
-     */
+    */
+
+    public Location getLocation(){
+        return localizacion;
+    }
+
+    public ArrayList<Dock> getDocks(){
+        return docks;
+    }
+
+    public void addDock(Dock esteDock){
+        docks.add(esteDock);
+    }
+
+    public Dock findDock(String dockName){
+
+        for (int i = 0; i < docks.size(); i++) {
+            if (docks.get(i).dockName == dockName){ // hacer dockname en dock TODO
+                return docks.get(i);
+            } 
+        }
+    }
+
+
     public Dock getFreeDock()
     {
        //TODO: Complete this code   
@@ -56,7 +75,8 @@ public class BikeStation
 
     /**
      * @return The unique identifier of the charging station.
-     */
+    */
+
     public String getId()
     {
         //TODO: Complete this code   
@@ -67,12 +87,8 @@ public class BikeStation
     /**
      * Adds a new {@link Dock} to the station.
      * @param dock The new Dock unit.
-     */
-    public void addDock(Dock dock)
-    {
-       //TODO: Complete this code
-    }
-    
+    */
+ 
     /**
      * Set the current location of the charging station.
      * @param location Where it is. Must not be null.
