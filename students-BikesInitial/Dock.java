@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 /**
  * Model a dock unit within a {@link BikeStation}.
  * It tracks its charging capabilities, fee, and the electric bikes it has recharged.
@@ -9,7 +8,12 @@ import java.util.List;
  */
 public class Dock
 {
-    //TODO: Complete this code
+    private String idDock;
+    private int chargingSpeed;
+    private float chargingFee;
+    private ArrayList bikesRecharged[];
+    private int amountCollected;
+    private boolean free;
 
     /**
      * Constructor for objects of class Dock.
@@ -17,29 +21,67 @@ public class Dock
     */
     public Dock(String id, int speed, float fee)
     {
-        //TODO: Complete this code
+        this.idDock = id;
+        this.chargingSpeed = speed;
+        this.chargingFee = fee;
+
     }
 
+    public String getIdDock(){
+        return idDock;
+    }
     
-    /**
-     * Returns a string representation of the dock, including its ID, speed, fee, and the number of EVs recharged.
-     * @return A string representation of the dock.
-     */
-    public String toString()
-    {
-        //TODO: Complete this code
-        return null;
-    }    
+    public int getChargingSpeed(){
+        return chargingSpeed;
+    }
 
-    
+    public float getChargingFee(){
+        return chargingFee;
+    }
+
+    public int getAmountCollected(){
+        return amountCollected;
+    }
+
+    public boolean getFree(){
+        return free;
+    }
+
     /**
      * @return The total number of {@link ElectricBike}s that have been recharged by this dock.
      */
-    public int getNumerEVRecharged(){
-       //TODO: Complete this code
-        return 0;
+    public int getNumerEBRecharged(){
+        int bikesRech = 0;
+        
+        while(bikesRech +1 != bikesRecharged.length){
+            bikesRech++;
+        }
+
+        return bikesRech;
     }
-    
+
+    public void setChargerBikes(){
+
+        //TODO
+        
+    }
+    /**    (non-Javadoc)
+    ●  Método que permite añadir un nuevo objeto bicicleta a la colección de bicicletas cargadas. 
+    ●  Método que permite actualizar la cantidad recaudada por el dock.  
+    ●  Método que permita realizar la recarga de una bicicleta eléctrica. 
+     * 
+     */
+
+    /**
+     * Returns a string representation of the dock, including its ID, speed, fee, and the number of EBs recharged.
+     * @return A string representation of the dock.
+     */
+    public String toString()//Dock: CC00_003, 80wh, 0.8€, 0, 0.0€)
+    {
+        String cad = "(Dock:"  + getIdDock() + ", " + getChargingSpeed() + "wh, " + getChargingFee() + "€, " + getNumerEBRecharged() + ")";  
+        
+        return cad;
+    }    
     
     /**
      * Simulates the charging process for an {@link ElectricBike}.

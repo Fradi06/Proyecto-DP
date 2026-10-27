@@ -17,7 +17,7 @@ public class EBCompany
      */
     public EBCompany(String name)
     {
-        //TODO: Complete this code
+        this.name = name;
     }
 
     /**

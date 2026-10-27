@@ -1,5 +1,3 @@
-import java.util.*;
-import java.lang.Math;
 
 /**
  * Model a location in a two-dimensional grid city using (x, y) coordinates.
@@ -39,10 +37,37 @@ public class Location
      * @return The next {@link Location} one step closer to the destination. Returns the destination
      * if this location is already the destination.
      */
-    public Location nextLocation(Location destination)
+    
+    
+    public Location nextLocation(Location destination) //obtiene la siguiente, no la cambia.
     {
-         //TODO: Complete this code
-        return null;
+        int currentLocX = x;
+        int currentLocY = y;
+
+        Location siguientePos = new Location(x,y); //predeterminado si ya ha llegado.
+
+        int whereToGoX = destination.x;
+        int whereToGoY = destination.y;
+        
+        if (currentLocX < whereToGoX){
+            currentLocX +=1; //imagino que esto no cambia la variable de esta clase y es simplemente una copia.
+            siguientePos.setX(currentLocX);
+        }
+        else if (currentLocX > whereToGoX){
+            currentLocX -=1;
+            siguientePos.setX(currentLocX);
+        }
+        
+        if (currentLocY < whereToGoY){
+            currentLocY += 1;
+            siguientePos.setY(currentLocY);
+        }
+        else if (currentLocY > whereToGoY){
+            currentLocY -=1;
+            siguientePos.setY(currentLocY);
+        }
+
+        return siguientePos;
     }
 
     /**
@@ -52,20 +77,8 @@ public class Location
      * @return The number of movement steps.
     */
 
-    /*Método capaz de proporcionar la distancia (método “distance”) entre la posición actual 
-    (valores  x  e  y  del  objeto Location) y una posición que se reciba por parámetro. Esta 
-    distancia será la distancia en línea recta entre la posición actual y la posición que se recibe 
-    por parámetro (es decir, el máximo valor absoluto de la diferencia entre las coordenadas x 
-    y las coordenadas y de ambas posiciones). 
-    Ejemplos:  
-    -  entre las posiciones p0 (0,0) y p1 (1,5) la distancia será 5: (el máximo valor 
-    absoluto entre los valores 1 (1-0)  y 5 (5-0) 
-    -  entre las posiciones p2 (6,6) y  p3 (5,2) la distancia será 4: (el máximo valor 
-    absoluto entre los valores -1 (5-6)  y -4 (2-6). */
-
     public int distance(Location destination)
     {
-        // supongo que se puede user la libreria math, sino elevamos a 2 para quitar el signo y luego raiz
         int xAbsoluto = Math.abs(destination.x - x);
         int yAbsoluto = Math.abs(destination.y - y);
         return Math.max(xAbsoluto, yAbsoluto);
@@ -118,5 +131,13 @@ public class Location
     public int getY()
     {
         return y;
+    }
+
+    public void setY(int y){
+        this.y = y;
+    }
+
+    public void setX(int x){
+        this.x = x;
     }
 }
