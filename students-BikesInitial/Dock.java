@@ -11,20 +11,28 @@ public class Dock
     private String idDock;
     private int chargingSpeed;
     private float chargingFee;
-    private ArrayList bikesRecharged[];
+    private ArrayList<ElectricBike> bikesRecharged;
     private int amountCollected;
+    private Location localizacion;
     private boolean free;
 
-    /**
-     * Constructor for objects of class Dock.
-     * //TODO complete the JavaDoc comments
-    */
-    public Dock(String id, int speed, float fee)
+
+    public Dock(String id, int CSpeed, float fee, ArrayList<ElectricBike> arrayBicisRecargadas, int colected, Location localizacion)
     {
         this.idDock = id;
-        this.chargingSpeed = speed;
+        this.chargingSpeed = CSpeed;
         this.chargingFee = fee;
+        if (fee == 0 ){
+            free = true;
+        }
+        else{
+            free = false;
+        }
 
+        bikesRecharged = arrayBicisRecargadas;
+        amountCollected = colected;
+        this.localizacion = localizacion;
+        
     }
 
     public String getIdDock(){
@@ -47,17 +55,32 @@ public class Dock
         return free;
     }
 
+    public void sumarCantidadRecaud(int cantidad){
+        this.amountCollected += cantidad;
+    }
+
+    public void anadirBicicleta(ElectricBike bici){
+        this.bikesRecharged.add(bici);
+    }
+
+    public int getX(){
+        return localizacion.getX();
+    }
+
+    public int getY(){
+        return localizacion.getY();
+    }
+
+    public Location getLocation(){
+        return localizacion;
+    }
+
+
     /**
      * @return The total number of {@link ElectricBike}s that have been recharged by this dock.
      */
-    public int getNumerEBRecharged(){
-        int bikesRech = 0;
-        
-        while(bikesRech +1 != bikesRecharged.length){
-            bikesRech++;
-        }
-
-        return bikesRech;
+    public int getNumerEBRecharged(){   
+        return bikesRecharged.size();
     }
 
     public void setChargerBikes(){
@@ -65,12 +88,6 @@ public class Dock
         //TODO
         
     }
-    /**    (non-Javadoc)
-    ●  Método que permite añadir un nuevo objeto bicicleta a la colección de bicicletas cargadas. 
-    ●  Método que permite actualizar la cantidad recaudada por el dock.  
-    ●  Método que permita realizar la recarga de una bicicleta eléctrica. 
-     * 
-     */
 
     /**
      * Returns a string representation of the dock, including its ID, speed, fee, and the number of EBs recharged.
@@ -86,13 +103,12 @@ public class Dock
     /**
      * Simulates the charging process for an {@link ElectricBike}.
      * Increases the amount collected and registers the bike as recharged.
-     * //TODO complete the JavaDoc comments
-     */
-    public float recharge(   ){
-        //TODO: Complete this code
+     *
+    */
+    public float recharge(ElectricBike bici){
+        bici.recharge(); // no se si quiere que hagamos esto? pag 5.
+        // decir que esta recargado
         return 0;
     }
-
-    //TODO: Complete this code
 
 }

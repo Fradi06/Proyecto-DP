@@ -1,5 +1,6 @@
 
-    import java.util.List;
+    import java.util.ArrayList;
+import java.util.List;
 
 
     /**
@@ -17,7 +18,14 @@
         private Location targetLocation;
         private int idleCount;
         private int batteryCapacity;
-        private List<Dock> docks;
+        private int batteryLevel;
+        private int wsCharged;
+        private int chargesCount;
+        private int chargestCost; // indica el coste total de las recargas que ha realizado la bicicleta. El 
+                                    //coste de cada recarga se calcula como los wh cargados por el coste de la recarga 
+                                        //tarifa del dock). 
+                                            //docks, colección con
+        private List<Dock> docks; // nos lo han dado con list en vez de arraylist?
         
 
 
@@ -91,10 +99,27 @@
          * Calculates the optimal route for the bike. 
          * If there isn't enough battery to reach the target, it attempts to find an intermediate 
          * {@link BikeStation} and sets it as the {@code rechargingLocation}.
-         */
+        */
+
         public void calculateRoute()
         {
-            
+            int menorDistanciaTotal = 20; //tamaño maximo de nuestra matriz sera nuestra distancia mas pequeña para empezar con algo grande 
+
+            if (!enoughBattery()){
+                for(Dock dockEncontrado : docks){
+
+                    // if podemos llegar a este dock(falta meto)
+                    int distDoc = distanceToTheTargetLocation(dockEncontrado.getLocation());
+                    int distDockATarget = Math.abs(dockEncontrado.getX() - targetLocation.getX()) + Math.abs(dockEncontrado.getX() - targetLocation.getY());
+                    int distTotal = distDoc + distDockATarget;
+
+                    if (distTotal < menorDistanciaTotal) {
+                        menorDistanciaTotal = distTotal;
+                        //supongo que cambiamos el destino a este dock
+                        setTargetLocation(dockEncontrado.getLocation());
+                    }
+                }
+            }
         }
 
         /**
@@ -107,14 +132,11 @@
         return null;
         }
 
-        /**
-         * Checks if the current battery level is sufficient to cover a given distance.
-         * //TODO complete the JavaDoc comments
-         */
         public boolean enoughBattery(   )
         {
-            //TODO: Complete this code
-            return true;
+           int totalDistancia = distanceToTheTargetLocation(null);
+           // 5 wh por cada paso que da al moverse por la ciudad.
+            return wsCharged/5 >= totalDistancia;
         }
 
         /**
@@ -129,12 +151,21 @@
 
         /**
          * Get the Manhattan-like distance to the final target location from the current location.
+         *  If Point A is at (2, 3) and Point B is at (5, 7), the Manhattan distance is |2 - 5| + |3 - 7| = 3 + 4 = 7 units.
          * @return The distance to the target location.
          */
-        public int distanceToTheTargetLocation()
+        public int distanceToTheTargetLocation(Location L)
         {
-            //TODO: Complete this code 
-            return 0;
+            if(L != null){
+                int totX = Math.abs(location.getX() - L.getY());
+                int totY = Math.abs(location.getY() - L.getY());
+                return totX + totY;
+            }
+            else{
+                int totX = Math.abs(location.getX() - targetLocation.getY());
+                int totY = Math.abs(location.getY() - targetLocation.getY());
+                return totX + totY;
+            }  
         }
 
         /**
