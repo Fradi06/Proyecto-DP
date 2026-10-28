@@ -26,6 +26,7 @@ import java.util.List;
                                         //tarifa del dock). 
                                             //docks, colección con
         private List<Dock> docks; // nos lo han dado con list en vez de arraylist?
+        private Location rechargingPosition;
         
 
 
@@ -84,15 +85,38 @@ import java.util.List;
             return rechargingLocation;
         }
 
+        public int getBatteryCapacity(){
+            return batteryCapacity;
+        }
+
+        public int getWsCharged(){
+            return wsCharged;
+        }
+
+        public int getBatteryLevel(){
+            return batteryLevel;
+        }
+
+        public void setBatteryCapacity(int batteryCap){
+            batteryCapacity = batteryCap;
+        }
+
+        public void setBatteryLevel(int batteryLev){
+            batteryLevel = batteryLev;
+        }
+
+        public void addWsCharged(int ws){
+            wsCharged += ws;
+        }
 
         /**
          * Set the required final target location.
          * @param location Where to go. Must not be null.
          * @throws NullPointerException If location is null.
          */
-        public void setTargetLocation(Location location)
+        public void setRechargingLocation(Location location)
         {
-           this.targetLocation=location;
+           this.rechargingPosition=location;
         }
 
         /**
@@ -116,10 +140,15 @@ import java.util.List;
                     if (distTotal < menorDistanciaTotal) {
                         menorDistanciaTotal = distTotal;
                         //supongo que cambiamos el destino a este dock
-                        setTargetLocation(dockEncontrado.getLocation());
+                        setRechargingLocation(dockEncontrado.getLocation());
                     }
                 }
+
             }
+            else{
+                setRechargingLocation(null);
+            }
+            
         }
 
         /**
@@ -134,7 +163,7 @@ import java.util.List;
 
         public boolean enoughBattery(   )
         {
-           int totalDistancia = distanceToTheTargetLocation(null);
+           int totalDistancia = distanceToTheTargetLocation(targetLocation);
            // 5 wh por cada paso que da al moverse por la ciudad.
             return wsCharged/5 >= totalDistancia;
         }
@@ -155,17 +184,8 @@ import java.util.List;
          * @return The distance to the target location.
          */
         public int distanceToTheTargetLocation(Location L)
-        {
-            if(L != null){
-                int totX = Math.abs(location.getX() - L.getY());
-                int totY = Math.abs(location.getY() - L.getY());
-                return totX + totY;
-            }
-            else{
-                int totX = Math.abs(location.getX() - targetLocation.getY());
-                int totY = Math.abs(location.getY() - targetLocation.getY());
-                return totX + totY;
-            }  
+        { // pide usar metodo distance de location.
+            return location.distance(L);
         }
 
         /**
@@ -191,21 +211,20 @@ import java.util.List;
             Dock dockLibre = bikeStation.getFreeDock();
             if (dockLibre != null){
                 
-                float precio = dockLibre.getChargingFee();
+                float precio = dockLibre.recharge(this); // nos referenciamos a nosotros así?
                 this.chargestCost += precio;
 
-                dockLibre.anadirBicicleta(this); // no se si un objecto se referencia a si mismo asi, tampoco se si quiere que metamos la bici aqui
                 bikeStation.addDock(dockLibre);
                 
-                // battery level = (blevel / bcap) * 100
+                /*  battery level = (blevel / bcap) * 100
                 int sumaBateria = batteryCapacity - batteryLevel;
                 wsCharged += sumaBateria; // suma de w
 
                 int porcentajeCargado = (wsCharged/batteryCapacity) * 100;
                 batteryLevel += porcentajeCargado;
+                */ // esto lo he cambiado a dock -> recharge (es una de las preguntas)
 
-                this.chargesCount +=1;u
-                
+                this.chargesCount +=1;
                 this.calculateRoute();
             }
 
@@ -229,14 +248,30 @@ import java.util.List;
             //TODO: Complete this code 
         }   
 
-        /**
-         * Carries out a single step of the bike's actions.
-         * Moves one step towards the target (recharging or final) or stays idle.
-         * //TODO complete the JavaDoc comments
-         */
+        /*
+        Debe  poder  realizar  una  acción  en  la  simulación  (método  “act”),  esta  acción  está 
+            compuesta por los siguientes pasos:  
+            a.  debe obtener y moverse a la siguiente posición que le corresponda en su camino 
+            (en función de su destino, estación de bicicletas o destino final): 
+            ■  si ya está en su destino:  
+            ●  incrementará el contador idleCount. 
+            ●  debe permanecer en esa posición sin moverse hasta el final de la 
+            simulación. 
+            ■  si la siguiente posición coincide con la posición targetLocation: 
+            ●  registrará que ya ha llegado a su destino. 
+            ■  si la siguiente posición coincide con la posición de la estación de bicicletas a 
+            la que se dirigía deberá llevar a cabo el proceso de carga comentado en el 
+            método “recharge”, es decir: 
+            ●  llevará a cabo el proceso de carga comentado anteriormente en el 
+            método “recharge”. 
+            ●  si no hubiera un dock que pueda ser seleccionado, debe permanecer 
+            en esa posición sin moverse hasta el final de la simulación. 
+        */
+        
         public void act(   )
         {
-        //TODO: Complete this code 
+            calculateRoute();
+
         }
 
         /**

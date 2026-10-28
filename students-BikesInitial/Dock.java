@@ -106,9 +106,18 @@ public class Dock
      *
     */
     public float recharge(ElectricBike bici){
-        bici.recharge(); // no se si quiere que hagamos esto? pag 5.
-        // decir que esta recargado
-        return 0;
+        float precio = this.getChargingFee(); // esto luego lo multiplicamos por la cantidad de ws
+        anadirBicicleta(bici);
+        
+        // battery level = (blevel / bcap) * 100
+
+        int sumaBateria = bici.getBatteryCapacity() - bici.getBatteryLevel();
+        bici.addWsCharged(sumaBateria);
+
+        int porcentajeCargado = (sumaBateria/bici.getBatteryCapacity()) * 100; // recordar que battery capacity es 60, por lo que si tenemos si hemos cargado un 20/60, hemos cargado un 33.33 %, por eso el 100 que multiplica
+        bici.setBatteryLevel(porcentajeCargado);
+
+        return precio;
     }
 
 }
