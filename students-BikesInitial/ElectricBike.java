@@ -17,7 +17,7 @@ import java.util.List;
         private Location location;
         private Location targetLocation;
         private int idleCount;
-        private int batteryCapacity;
+        private int batteryCapacity; // asumiendo que esto va del 0-100, igual que battery level, se calculará a partir de de la formula (blevel / bcap) * 100
         private int batteryLevel;
         private int wsCharged;
         private int chargesCount;
@@ -144,7 +144,7 @@ import java.util.List;
          * if the bike cannot reach the final target directly.
          * Sets {@code rechargingLocation} to the chosen station's location.
          */
-        public void calculateRechargingPosition()
+        public void calculateRechargingPosition() // esto lo hemos hecho ya
         {
             //TODO: Complete this code
         }
@@ -172,10 +172,43 @@ import java.util.List;
          * Simulates the recharging process when the bike arrives at a {@code rechargingLocation}.
          * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
          * //TODO complete the JavaDoc comments
-         */
-        public void recharge(   )
+        */
+       /*Método  que  realice  la  recarga  de  la  bicicleta  una  vez  llegue  al  punto  de  recarga 
+        (“recharge”). Este método debe realizar todas las operaciones que la recarga implica:  
+        ■  seleccionar el primer dock libre que haya en la BikeStation y se cargará la 
+        bicicleta  suministrando  los  wh  que fueran necesarios hasta completar la 
+        batería de la bicicleta (capacidad de la batería - carga actual en wh);  
+        ■  almacenar el dock en el que ha cargado en la colección docks; 
+        ■  actualizar el coste, wh y veces que la bicicleta ha recargado; actualizar el 
+        nivel de la batería de la bicicleta (se cargará hasta el máximo de capacidad), 
+        actualizar  la  lista  de  bicicletas  recargados  en  el  dock,  y  finalmente, 
+        recalcular la ruta de la bicicleta para llegar al destino final (el proceso será el 
+        mismo que el explicado en el punto anterior).  */
+
+
+        public void recharge(BikeStation bikeStation) // 
         {
-            //TODO: Complete this code 
+            Dock dockLibre = bikeStation.getFreeDock();
+            if (dockLibre != null){
+                
+                float precio = dockLibre.getChargingFee();
+                this.chargestCost += precio;
+
+                dockLibre.anadirBicicleta(this); // no se si un objecto se referencia a si mismo asi, tampoco se si quiere que metamos la bici aqui
+                bikeStation.addDock(dockLibre);
+                
+                // battery level = (blevel / bcap) * 100
+                int sumaBateria = batteryCapacity - batteryLevel;
+                wsCharged += sumaBateria; // suma de w
+
+                int porcentajeCargado = (wsCharged/batteryCapacity) * 100;
+                batteryLevel += porcentajeCargado;
+
+                this.chargesCount +=1;u
+                
+                this.calculateRoute();
+            }
+
         } 
 
         /**

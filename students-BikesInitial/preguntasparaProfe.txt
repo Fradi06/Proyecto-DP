@@ -1,0 +1,14 @@
+1. electric bike necesita dos metodos para calcular la ruta? tenemos uno que ve si es capaz de llegar a su destino
+    si no es capaz su nuevo destino es el dock. el metodo calculateRechargingPosition es para esto?
+    Si es asi entonces entiendo que el metodo calculate route sirve para poner un destino y ya.
+
+2. por qué dock tiene metodo recharge tambien? usa el de electric bike y a mi me parece que deberia ser del reves
+    osea que el codigo del de bike va aqui.
+
+
+------
+
+Poner aqui lo que hayamos hecho:
+    - Metodos 1,2 y 3 de electric bike
+    - Dock (entero)
+    - Location (entero)
