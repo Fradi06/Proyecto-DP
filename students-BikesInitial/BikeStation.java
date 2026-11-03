@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+
 /**
  * Models an Electric Vehicle Charging Station.
  * A charging station contains multiple {@link Dock} units.
@@ -26,7 +27,7 @@ public class BikeStation
         this.docks = new ArrayList<>();
 
         for (int i = 0; i < numDocks; i++) { // num de docs para inicializar
-            this.docks.add(new Dock()); //no tiene contructor?
+            this.docks.add(new Dock()); //no tiene contructor? //No tiene un constructor vacio
         }
 
     }
@@ -60,10 +61,14 @@ public class BikeStation
         return null;
     }
 
-
+    //Devuelve el primer dock que está libre del ArryList de docks
     public Dock getFreeDock()
     {
-       //TODO: Complete this code   
+        for(Dock dock : docks){
+            if(dock.getFree()){
+                return dock;
+            }
+        }
         return null;        
     }
 
@@ -73,8 +78,7 @@ public class BikeStation
 
     public String getId()
     {
-        //TODO: Complete this code   
-        return null;
+        return idStation;
     }
     
     
@@ -82,15 +86,51 @@ public class BikeStation
      * Adds a new {@link Dock} to the station.
      * @param dock The new Dock unit.
     */
- 
+
+    public void setNewDock(Dock d){
+        boolean found = false;
+        if(docks.isEmpty()){
+            docks.add(d);
+            found = true;
+        }
+        else{
+            for(int i = 0; i < docks.size(); i++){
+                if(docks.get(i).getChargingSpeed() < d.getChargingSpeed()){
+                    docks.add(i,d);
+                    found = true;
+                    break;
+                }
+                else if(docks.get(i).getChargingSpeed() == d.getChargingSpeed() && docks.get(i).getChargingFee() > d.getChargingFee()){
+                    docks.add(i, d);
+                    found = true;
+                    break;
+                }
+                else if(docks.get(i).getChargingSpeed() == d.getChargingSpeed() && docks.get(i).getChargingFee() == d.getChargingFee() && docks.get(i).getIdDock().compareTo(d.getIdDock()) > 0){
+                    docks.add(i, d);
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if(!found){
+            docks.add(d);
+        }
+    }
     /**
      * Set the current location of the charging station.
      * @param location Where it is. Must not be null.
      * @throws NullPointerException If location is null.
      */
+    //TODO no está bien hecho ni de coña Begoña
     public void setLocation(Location location)
     {
-       //TODO: Complete this code   
+        if(location == null){
+            throw new NullPointerException();
+        }
+        else{
+            this.localizacion = location;
+        }
+        
     }
 
     //TODO complete the rest of the code

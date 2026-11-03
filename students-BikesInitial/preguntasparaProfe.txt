@@ -8,3 +8,4 @@ Poner aqui lo que hayamos hecho:
     
     - Dock (entero)
     - Location (entero)
+    -BikeStation --> Hecho: public Dock getFreeDock(), public String getId(), public void setNewDock(Dock d)
