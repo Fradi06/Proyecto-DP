@@ -20,13 +20,14 @@ import java.util.List;
         private int batteryCapacity; // asumiendo que esto va del 0-100, igual que battery level, se calculará a partir de de la formula (blevel / bcap) * 100
         private int batteryLevel;
         private int wsCharged;
+        private boolean reachedTarget;
         private int chargesCount;
         private int chargestCost; // indica el coste total de las recargas que ha realizado la bicicleta. El 
                                     //coste de cada recarga se calcula como los wh cargados por el coste de la recarga 
                                         //tarifa del dock). 
                                             //docks, colección con
         private List<Dock> docks; // nos lo han dado con list en vez de arraylist?
-        private Location rechargingPosition;
+        private BikeStation rechargingLocation;
         
 
 
@@ -39,13 +40,14 @@ import java.util.List;
          * @param batteryCapacity The maximum capacity of the battery.
          * @throws NullPointerException If company, location, or targetLocation is null.
          */
-        public ElectricBike(EBCompany company, Location location, Location targetLocation, String id, int batteryCapacity)
+        public ElectricBike(EBCompany company, Location location, Location targetLocation, String id, int batteryCapacity, boolean reachedTarged)
         {
             this.company=company;
             this.location=location;
             this.targetLocation=targetLocation;
             this.idBike= id.toCharArray();
             this.batteryCapacity=batteryCapacity;
+            this.reachedTarget = reachedTarged;
 
         }
 
@@ -82,7 +84,7 @@ import java.util.List;
          */
         public Location getRechargingLocation()
         {
-            return rechargingLocation;
+            return rechargingLocation.getLocation();
         }
 
         public int getBatteryCapacity(){
@@ -113,10 +115,11 @@ import java.util.List;
          * Set the required final target location.
          * @param location Where to go. Must not be null.
          * @throws NullPointerException If location is null.
-         */
-        public void setRechargingLocation(Location location)
+        */
+
+        public void setRechargingLocation(BikeStation location)
         {
-           this.rechargingPosition=location;
+            rechargingLocation = location;
         }
 
         /**
@@ -125,30 +128,31 @@ import java.util.List;
          * {@link BikeStation} and sets it as the {@code rechargingLocation}.
         */
 
-        public void calculateRoute()
-        {
-            int menorDistanciaTotal = 20; //tamaño maximo de nuestra matriz sera nuestra distancia mas pequeña para empezar con algo grande 
+        public void calculateRoute() {
+            if (enoughBattery()) {
+                setRechargingLocation(null);
+            } else {
+                int menorDistanciaTotal = 20;
+                BikeStation mejorEstacion = null;
 
-            if (!enoughBattery()){
-                for(Dock dockEncontrado : docks){
-
-                    // if podemos llegar a este dock(falta meto)
-                    int distDoc = distanceToTheTargetLocation(dockEncontrado.getLocation());
-                    int distDockATarget = Math.abs(dockEncontrado.getX() - targetLocation.getX()) + Math.abs(dockEncontrado.getX() - targetLocation.getY());
-                    int distTotal = distDoc + distDockATarget;
-
-                    if (distTotal < menorDistanciaTotal) {
-                        menorDistanciaTotal = distTotal;
-                        //supongo que cambiamos el destino a este dock
-                        setRechargingLocation(dockEncontrado.getLocation());
+                for (BikeStation estacion : company.getBikeStations()) {
+                    Location locEstacion = estacion.getLocation();
+                    int distAEstacion = location.distance(locEstacion);
+                    
+    
+                    if ((batteryLevel / 5) >= distAEstacion) {
+                        int distEstacionATarget = locEstacion.distance(targetLocation);
+                        int distTotal = distAEstacion + distEstacionATarget;
+                        
+                        if (distTotal < menorDistanciaTotal) {
+                            menorDistanciaTotal = distTotal;
+                            mejorEstacion = estacion;
+                        }
                     }
                 }
-
+    
+                setRechargingLocation(mejorEstacion); // null si no encuentra
             }
-            else{
-                setRechargingLocation(null);
-            }
-            
         }
 
         /**
@@ -165,7 +169,7 @@ import java.util.List;
         {
            int totalDistancia = distanceToTheTargetLocation(targetLocation);
            // 5 wh por cada paso que da al moverse por la ciudad.
-            return wsCharged/5 >= totalDistancia;
+            return (batteryLevel/5) >= totalDistancia;
         }
 
         /**
@@ -211,7 +215,8 @@ import java.util.List;
             Dock dockLibre = bikeStation.getFreeDock();
             if (dockLibre != null){
                 
-                float precio = dockLibre.recharge(this); // nos referenciamos a nosotros así?
+                float precio = dockLibre.recharge(this); // nos referenciamos a nosotros así? esto recarga la bici y devuelve precio
+                // preguntar si la recarga se tiene que hacer aqui
                 this.chargestCost += precio;
 
                 bikeStation.addDock(dockLibre);
@@ -272,6 +277,19 @@ import java.util.List;
         {
             calculateRoute();
 
+            Location next = getTargetLocation();
+            if (location == next){
+                idleCount += 1;
+            }
+            else{
+                if (next == targetLocation){
+                    reachedTarget = true;
+                    location = next; // ns si es necesario 
+                }
+                else if(next == rechargingLocation.getLocation()){
+                    recharge(rechargingLocation);;
+                }
+            }
         }
 
         /**

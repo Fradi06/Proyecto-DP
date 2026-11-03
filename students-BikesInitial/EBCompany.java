@@ -11,6 +11,7 @@ public class EBCompany
 {
     //TODO: Complete this code
 
+    private ArrayList<BikeStation> bikeStations;
     /**
      * Constructor for objects of class EVCompany.
      * @param name The name of the company.
@@ -27,6 +28,10 @@ public class EBCompany
     public void addElectricBike(ElectricBike bike)
     {       
         //TODO: Complete this code
+    }
+
+    public ArrayList<BikeStation> getBikeStations(){
+        return bikeStations;
     }
 
     
