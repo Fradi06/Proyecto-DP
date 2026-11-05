@@ -6,19 +6,26 @@ import java.util.*;
  * * @author David J. Barnes and Michael Kölling
  * @author DP classes
  * @version 2026.10.13
- */
+*/
+
 public class EBCompany  
 {
-    //TODO: Complete this code
-
+    
+    private String name;
+    private ArrayList<ElectricBike> subscribedBikes;
     private ArrayList<BikeStation> bikeStations;
+
     /**
      * Constructor for objects of class EVCompany.
      * @param name The name of the company.
-     */
-    public EBCompany(String name)
+    */
+
+
+    public EBCompany(String name, ArrayList<ElectricBike> subscribedBikes, ArrayList<BikeStation> bikeStations)
     {
+        this.subscribedBikes = subscribedBikes;
         this.name = name;
+        this.bikeStations = bikeStations;
     }
 
     /**
@@ -27,11 +34,15 @@ public class EBCompany
      */
     public void addElectricBike(ElectricBike bike)
     {       
-        //TODO: Complete this code
+        subscribedBikes.add(bike);
     }
 
     public ArrayList<BikeStation> getBikeStations(){
         return bikeStations;
+    }
+
+    public String getCompanyName(){
+        return name;
     }
 
     
@@ -41,7 +52,7 @@ public class EBCompany
      */
     public void addBikeStation(BikeStation station)
     {       
-        //TODO: Complete this code
+        bikeStations.add(station);
     }
     
     
@@ -52,7 +63,11 @@ public class EBCompany
      */
     public BikeStation getBikeStation(String id)
     {
-        //TODO: Complete this code
+        for(BikeStation bs : bikeStations){
+            if (bs.getId() == id){
+                return bs;
+            }
+        }
         return null;
     }
 
@@ -61,9 +76,14 @@ public class EBCompany
      * @param location The {@link Location} of the station to find.
      * @return The {@link BikeStation} at the matching location, or {@code null} if not found.
      */
-    public BikeStation getBikeStation(Location location)
+    public BikeStation getBikeStationLoc(Location location)
     {
-        //TODO: Complete this code
+
+        for(BikeStation bs : bikeStations){
+            if (bs.getLocation() == location){
+                return bs;
+            }
+        }
         return null;
     }
     
@@ -72,15 +92,16 @@ public class EBCompany
      * @return The total number of managed {@link BikeStation}s.
      */
     public int getNumberOfStations(){
-        //TODO: Complete this code
-        return 0;
+        return bikeStations.size();
     }
     
     /**
      * Clears all managed bikes and stations, resetting the company to an empty state.
-     */
+    */
     public void reset(){
-        //TODO: Complete this code
+        name = "";
+        subscribedBikes = new ArrayList<>();
+        bikeStations = new ArrayList<>();
     }
     
 }

@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.*;
 /**
  * Provides a simple demonstration and simulation environment for the 
@@ -46,8 +47,22 @@ public class EBikeDemo
      * Initializes the company, bikes, and stations lists, and sets the number of 
      * bikes based on the {@code DEMO} constant before calling {@code reset()}.
      */
-    public EBikeDemo()
+    public EBikeDemo(ArrayList<ElectricBike> EB, ArrayList<BikeStation> BS, ArrayList<Dock> DK)
     {
+        company.reset();
+        
+        for(ElectricBike eb : EB){
+            company.addElectricBike(eb);
+        }
+
+        for(BikeStation bs : BS){
+            company.addBikeStation(bs);
+        }
+
+        
+
+
+
         //TODO: Complete this code
 
     }
