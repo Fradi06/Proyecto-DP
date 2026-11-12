@@ -21,13 +21,13 @@ public class BikeStation
     private Location localizacion;
     private ArrayList<Dock> docks;
 
-    public BikeStation(String idStation, Location localizacion, int numDocks) {
+    public BikeStation(String idStation, Location localizacion, ArrayList<Dock> numDocks) {
         this.idStation = idStation;
         this.localizacion = localizacion;
         this.docks = new ArrayList<>();
 
-        for (int i = 0; i < numDocks; i++) { // num de docs para inicializar
-            this.docks.add(new Dock()); //no tiene contructor? //No tiene un constructor vacio
+        for (Dock d : numDocks) { // num de docs para inicializar
+            this.docks.add(d); //no tiene contructor? //No tiene un constructor vacio
         }
 
     }

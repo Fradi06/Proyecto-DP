@@ -1,5 +1,4 @@
 import java.util.*; 
-import java.util.*; 
 
 /**
  * Compares two {@link BikeStation} objects based on their ID in ascending order.
@@ -18,7 +17,11 @@ public class ComparatorBikeStationId implements Comparator<BikeStation>
      * station's ID is less than, equal to, or greater than the second.
      */
     public int compare(BikeStation st1, BikeStation st2){  
-        //TODO: Complete this code   
+        if (st1.getId().compareTo(st2.getId()) < 0) {
+            return -1; // st1's ID is less than st2's ID
+        } else if (st1.getId().compareTo(st2.getId()) > 0) {
+            return 1; // st1's ID is greater than st2's ID
+        }   
         return 0;
     } 
 }

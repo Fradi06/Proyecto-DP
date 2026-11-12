@@ -17,7 +17,11 @@ public class ComparatorDocksId implements Comparator<Dock>
      * dock's ID is lexicographically less than, equal to, or greater than the second.
      */
     public int compare(Dock c1, Dock c2){  
-        //TODO: Complete this code   
+        if (c1.getIdDock().compareTo(c2.getIdDock()) < 0) {
+            return -1; // c1's ID is less than c2's ID
+        } else if (c1.getIdDock().compareTo(c2.getIdDock()) > 0) {
+            return 1; // c1's ID is greater than c2's ID
+        }  
         return 0;  
     } 
 }

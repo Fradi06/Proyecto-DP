@@ -1,6 +1,5 @@
 
-    import java.util.ArrayList;
-import java.util.List;
+    import java.util.List;
 
 
     /**
@@ -235,23 +234,6 @@ import java.util.List;
 
         } 
 
-        /**
-         * Increments the count of recharges performed by this bike.
-         * //TODO complete the JavaDoc comments
-         */
-        public void incrementCharges()
-        {
-            //TODO: Complete this code 
-        }
-
-        /**
-         * Adds a cost amount to the total charges cost.
-         * //TODO complete the JavaDoc comments
-         */
-        public void incrementChargesCost(   )
-        {
-            //TODO: Complete this code 
-        }   
 
         /*
         Debe  poder  realizar  una  acción  en  la  simulación  (método  “act”),  esta  acción  está 
@@ -287,7 +269,7 @@ import java.util.List;
                     location = next; // ns si es necesario 
                 }
                 else if(next == rechargingLocation.getLocation()){
-                    recharge(rechargingLocation);;
+                    recharge(rechargingLocation);
                 }
             }
         }
@@ -297,7 +279,10 @@ import java.util.List;
          * Ensures the battery level does not go below zero.
          */
         public void reduceBatteryLevel(){
-        //TODO: Complete this code 
+            if(this.batteryLevel>4){
+                this.batteryLevel=-5;
+            }
+
         }
 
         /**

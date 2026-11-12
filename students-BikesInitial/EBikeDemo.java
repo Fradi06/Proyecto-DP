@@ -99,12 +99,12 @@ public class EBikeDemo
     {
         bikes.clear();
         stations.clear();
-        // TODO: Complete the code here: reset the company info
+        company.reset();
         createElectricBikes();
         createStations(); 
         createDocks();
         configureRoutes();
-        // TODO: Complete the code here: show the initial info
+        showInitialInfo();
     }
 
     
@@ -122,7 +122,7 @@ public class EBikeDemo
         //createLocations(locations,targetLocations);
         for (int i=0;i < DEMO.getNumBikesToCreate();i++){
             ElectricBike eb = new ElectricBike(company, locations[i],targetLocations[i],("EBCC"+i),(i+1)*15);
-            // TODO: Complete the code here
+            company.addElectricBike(eb);
         }
         // TODO: Complete the code here
 
@@ -153,9 +153,9 @@ public class EBikeDemo
             for (int i=0;i<DEMO.getNumDocksToCreate();i++){
                 // Creates Docks with varying speed and fee based on index 'i'.
                 Dock d = new Dock(station.getId() + "_00" + i,((i+1)*20),((i+1)*0.20f));
-                station.addDock(new Dock(station.getId() + "_00" + i,((i+1)*20),((i+1)*0.20f)));
+                station.addDock(d);
             }
-            // TODO: Complete the code here
+        
         }    
     }
     
@@ -165,7 +165,9 @@ public class EBikeDemo
       * This determines if an intermediate recharging stop is necessary.
       */
      private void configureRoutes() {
-        // TODO: Complete the code here
+        for (ElectricBike bike:bikes){
+            bike.calculateRoute();
+        }
 
      }
 
@@ -178,14 +180,18 @@ public class EBikeDemo
         System.out.println("( Electric Bikes )");
         System.out.println("(-------------------)");
 
-        // TODO: Complete the code here
+        for (ElectricBike bike:bikes){
+            System.out.println(bike);
+
+        }
 
         System.out.println("(-------------------)");
         System.out.println("( Bike Stations )");
         System.out.println("(-------------------)");
        
-        // TODO: Complete the code here
-
+        for (BikeStation station : stations) {
+            System.out.println(station);
+        }
         System.out.println("(------------------)");
         System.out.println("( Simulation start )");
         System.out.println("(------------------)");

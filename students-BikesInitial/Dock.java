@@ -16,7 +16,7 @@ public class Dock
     private Location localizacion;
     private boolean free;
 
-
+   
     public Dock(String id, int CSpeed, float fee, ArrayList<ElectricBike> arrayBicisRecargadas, int colected, Location localizacion)
     {
         this.idDock = id;

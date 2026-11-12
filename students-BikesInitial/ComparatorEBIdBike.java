@@ -17,7 +17,11 @@ public class ComparatorEBIdBike implements Comparator<ElectricBike>
      * bike's plate is less than, equal to, or greater than the second.
      */
     public int compare(ElectricBike eb1, ElectricBike eb2){  
-        //TODO: Complete this code   
+        if (eb1.getIdBike().compareTo(eb2.getIdBike()) < 0) {
+            return -1; // eb1's ID is less than eb2's ID
+        } else if (eb1.getIdBike().compareTo(eb2.getIdBike()) > 0) {
+            return 1; // eb1's ID is greater than eb2's ID
+        } 
         return 0;
     } 
 }
