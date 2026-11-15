@@ -1,0 +1,15 @@
+1. la recargar de la bici tiene que usar el metodo de dock o se recarga en el propio recarga de electrick bike?
+2. pregunatar sobre la simulafcio sobre el metodo act
+3. Bikestation demo apartado d
+------
+
+Poner aqui lo que hayamos hecho:
+    - Metodos 1,2 y 3, 4 y 5 de electric bike (queda ''Se debe poder mostrar la información inicial y final de un objeto ElectricBike siguiendo las 
+    plantillas de salida proporcionadas (ver Anexo I)''.)
+    
+    - Dock (entero)
+    - Location (entero)
+    -BikeCompany (entero)
+    -EbikeDEMO a, b, c
+
+    -BikeStation --> Hecho: public Dock getFreeDock(), public String getId(), public void setNewDock(Dock d)
