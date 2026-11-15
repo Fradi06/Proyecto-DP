@@ -106,11 +106,7 @@ public class EBikeDemo
         configureRoutes();
         showInitialInfo();
     }
-<<<<<<< HEAD
-//comentario de prueba
-=======
 
->>>>>>> 59cb2c574f5f7a5dcde8a98eba5fb2ca7dddf81b
     
     /**
      * Creates the {@link ElectricBike}s based on {@code numBikesCreated}, assigns them
