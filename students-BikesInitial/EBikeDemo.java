@@ -219,13 +219,13 @@ public class EBikeDemo
         
         // TODO: Complete the code here
     }
-    
+}
     
     /**
      * The main entry point for running the EBikeDemo simulation.
      * Creates an instance of {@code EBikeDemo} and starts the simulation.
      */
-    public static void main(String[] args){
+    public static void main(){
         EBikeDemo demo = new EBikeDemo();
         demo.run();
     }
