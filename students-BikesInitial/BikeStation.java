@@ -24,10 +24,10 @@ public class BikeStation
     public BikeStation(String idStation, Location localizacion, ArrayList<Dock> numDocks) {
         this.idStation = idStation;
         this.localizacion = localizacion;
-        this.docks = new ArrayList<>();
+        this.docks = numDocks;
 
-        for (Dock d : numDocks) { // num de docs para inicializar
-            this.docks.add(d); //no tiene contructor? //No tiene un constructor vacio
+        for (Dock d : numDocks) {
+            setNewDock(d);
         }
 
     }

@@ -11,7 +11,7 @@
      */
     public class ElectricBike 
     {
-        private char[] idBike = new char[6];
+        private String idBike; // vector de caracteres 6 profesora dijo string.
         private EBCompany company;
         private Location location;
         private Location targetLocation;
@@ -21,7 +21,7 @@
         private int wsCharged;
         private boolean reachedTarget;
         private int chargesCount;
-        private int chargestCost; // indica el coste total de las recargas que ha realizado la bicicleta. El 
+        private float chargestCost; // indica el coste total de las recargas que ha realizado la bicicleta. El 
                                     //coste de cada recarga se calcula como los wh cargados por el coste de la recarga 
                                         //tarifa del dock). 
                                             //docks, colección con
@@ -39,15 +39,22 @@
          * @param batteryCapacity The maximum capacity of the battery.
          * @throws NullPointerException If company, location, or targetLocation is null.
          */
-        public ElectricBike(EBCompany company, Location location, Location targetLocation, String id, int batteryCapacity, boolean reachedTarged)
+        public ElectricBike(EBCompany company, Location location, Location targetLocation, String id, int batteryCapacity, boolean reachedTarged, float cost, List<Dock> docks)
         {
+            
             this.company=company;
             this.location=location;
             this.targetLocation=targetLocation;
-            this.idBike= id.toCharArray();
+            this.idBike= id;
             this.batteryCapacity=batteryCapacity;
+            batteryLevel = 60; // max
             this.reachedTarget = reachedTarged;
+            this.idleCount = 0;
+            chargesCount = 0;
+            chargestCost = cost;
+            this.docks = docks;
 
+            rechargingLocation = null;
         }
 
         /**
@@ -83,7 +90,13 @@
          */
         public Location getRechargingLocation()
         {
-            return rechargingLocation.getLocation();
+            if (rechargingLocation != null){
+                return rechargingLocation.getLocation();
+            }
+            else{
+                return null;
+            }
+          
         }
 
         public int getBatteryCapacity(){
@@ -131,6 +144,7 @@
             if (enoughBattery()) {
                 setRechargingLocation(null);
             } else {
+
                 int menorDistanciaTotal = 20;
                 BikeStation mejorEstacion = null;
 
@@ -160,8 +174,8 @@
          */
         public String getStringRoute()
         {
-        //TODO: Complete this code
-        return null;
+            String s = "Current Location = " + location + "Recharging location = " + rechargingLocation + "Target Location = " + targetLocation + ")";
+            return s;
         }
 
         public boolean enoughBattery(   )
@@ -194,39 +208,21 @@
         /**
          * Simulates the recharging process when the bike arrives at a {@code rechargingLocation}.
          * The battery is charged to full capacity, the cost is calculated, and the route is recalculated.
-         * //TODO complete the JavaDoc comments
+         * 
         */
-       /*Método  que  realice  la  recarga  de  la  bicicleta  una  vez  llegue  al  punto  de  recarga 
-        (“recharge”). Este método debe realizar todas las operaciones que la recarga implica:  
-        ■  seleccionar el primer dock libre que haya en la BikeStation y se cargará la 
-        bicicleta  suministrando  los  wh  que fueran necesarios hasta completar la 
-        batería de la bicicleta (capacidad de la batería - carga actual en wh);  
-        ■  almacenar el dock en el que ha cargado en la colección docks; 
-        ■  actualizar el coste, wh y veces que la bicicleta ha recargado; actualizar el 
-        nivel de la batería de la bicicleta (se cargará hasta el máximo de capacidad), 
-        actualizar  la  lista  de  bicicletas  recargados  en  el  dock,  y  finalmente, 
-        recalcular la ruta de la bicicleta para llegar al destino final (el proceso será el 
-        mismo que el explicado en el punto anterior).  */
-
-
+       
         public void recharge(BikeStation bikeStation) // 
         {
             Dock dockLibre = bikeStation.getFreeDock();
             if (dockLibre != null){
                 
                 float precio = dockLibre.recharge(this); // nos referenciamos a nosotros así? esto recarga la bici y devuelve precio
-                // preguntar si la recarga se tiene que hacer aqui
+
                 this.chargestCost += precio;
 
                 bikeStation.addDock(dockLibre);
                 
-                /*  battery level = (blevel / bcap) * 100
-                int sumaBateria = batteryCapacity - batteryLevel;
-                wsCharged += sumaBateria; // suma de w
-
-                int porcentajeCargado = (wsCharged/batteryCapacity) * 100;
-                batteryLevel += porcentajeCargado;
-                */ // esto lo he cambiado a dock -> recharge (es una de las preguntas)
+                // cambiar dock a free de nuevo despues?? se hace aqui o en dock
 
                 this.chargesCount +=1;
                 this.calculateRoute();
@@ -234,45 +230,52 @@
 
         } 
 
-
-        /*
-        Debe  poder  realizar  una  acción  en  la  simulación  (método  “act”),  esta  acción  está 
-            compuesta por los siguientes pasos:  
-            a.  debe obtener y moverse a la siguiente posición que le corresponda en su camino 
-            (en función de su destino, estación de bicicletas o destino final): 
-            ■  si ya está en su destino:  
-            ●  incrementará el contador idleCount. 
-            ●  debe permanecer en esa posición sin moverse hasta el final de la 
-            simulación. 
-            ■  si la siguiente posición coincide con la posición targetLocation: 
-            ●  registrará que ya ha llegado a su destino. 
-            ■  si la siguiente posición coincide con la posición de la estación de bicicletas a 
-            la que se dirigía deberá llevar a cabo el proceso de carga comentado en el 
-            método “recharge”, es decir: 
-            ●  llevará a cabo el proceso de carga comentado anteriormente en el 
-            método “recharge”. 
-            ●  si no hubiera un dock que pueda ser seleccionado, debe permanecer 
-            en esa posición sin moverse hasta el final de la simulación. 
-        */
-        
-        public void act(   )
-        {
-            calculateRoute();
-
-            Location next = getTargetLocation();
-            if (location == next){
-                idleCount += 1;
-            }
+        void doPaso() {
+            Location loc;
+            if (getRechargingLocation() != null){
+                loc = getRechargingLocation();
+            }   
             else{
-                if (next == targetLocation){
-                    reachedTarget = true;
-                    location = next; // ns si es necesario 
+                loc = targetLocation;
+            }
+
+
+
+            if (!location.equals(loc)) {
+                if (location.getX() < loc.getX()) {
+                    location.addX(1);
+                } else if (location.getX() > loc.getX()) {
+                    location.addX(-1);
                 }
-                else if(next == rechargingLocation.getLocation()){
-                    recharge(rechargingLocation);
+
+                if (location.getY() < loc.getY()) {
+                    location.addY(1);
+                } else if (location.getY() > loc.getY()) {
+                    location.addY(-1);
                 }
+
+                reduceBatteryLevel();
             }
         }
+
+        public void act() {
+            if (location.equals(targetLocation)) {
+                reachedTarget = true;
+                idleCount++;
+                return;
+            }
+
+            calculateRoute();
+            doPaso();
+
+            if (location.equals(targetLocation)) {
+                reachedTarget = true;
+            } else if (rechargingLocation != null && location.equals(rechargingLocation.getLocation())) {
+                recharge(rechargingLocation);
+            }
+        }
+
+        
 
         /**
          * Reduces the battery level by the cost of one movement step (defined in {@link EBCompany#MOVINGCOST}).
@@ -280,7 +283,7 @@
          */
         public void reduceBatteryLevel(){
             if(this.batteryLevel>4){
-                this.batteryLevel=-5;
+                this.batteryLevel -=5;
             }
 
         }
@@ -290,10 +293,14 @@
          * @return A string containing the bike's name, plate, battery info, charge counts, costs, idle count, and route.
          */
         @Override
+
+        //(ElectricBike: EBCC0, 15wh, 15wh, 0, 0.0€, 0, 10-13, 10-11, 1-1) 
+        // (ElectricBike: EBCC1, 30wh, 30wh, 0, 0.0€, 0, 8-4, 10-5, 19-19) 
+
         public String toString(){
-            //TODO: Complete this code 
-            return null;
+            String s = "(ElectricBike : " + idBike + ", " + batteryCapacity + ", " + batteryLevel + ", " + chargesCount + ", " + chargestCost + ", " + location.toString() + ", " + rechargingLocation.toString() + ", " + targetLocation.toString() + ")";
+            return s;
         }
 
-    
+
     }

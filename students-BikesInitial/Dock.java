@@ -12,9 +12,16 @@ public class Dock
     private int chargingSpeed;
     private float chargingFee;
     private ArrayList<ElectricBike> bikesRecharged;
-    private int amountCollected;
+    private float amountCollected;
     private Location localizacion;
     private boolean free;
+
+    
+    public Dock(String id, int i, float f){
+        idDock = id;
+        chargingSpeed = i;
+        chargingFee = f;
+    }
 
    
     public Dock(String id, int CSpeed, float fee, ArrayList<ElectricBike> arrayBicisRecargadas, int colected, Location localizacion)
@@ -47,7 +54,7 @@ public class Dock
         return chargingFee;
     }
 
-    public int getAmountCollected(){
+    public float getAmountCollected(){
         return amountCollected;
     }
 
@@ -55,7 +62,7 @@ public class Dock
         return free;
     }
 
-    public void sumarCantidadRecaud(int cantidad){
+    public void sumarCantidadRecaud(float cantidad){
         this.amountCollected += cantidad;
     }
 
@@ -79,14 +86,8 @@ public class Dock
     /**
      * @return The total number of {@link ElectricBike}s that have been recharged by this dock.
      */
-    public int getNumerEBRecharged(){   
-        return bikesRecharged.size();
-    }
-
-    public void setChargerBikes(){
-
-        //TODO
-        
+    public ArrayList<ElectricBike> getNumerEBRecharged(){   
+        return bikesRecharged;
     }
 
     /**
@@ -113,9 +114,12 @@ public class Dock
 
         int sumaBateria = bici.getBatteryCapacity() - bici.getBatteryLevel();
         bici.addWsCharged(sumaBateria);
+        this.free = false;
 
-        int porcentajeCargado = (sumaBateria/bici.getBatteryCapacity()) * 100; // recordar que battery capacity es 60, por lo que si tenemos si hemos cargado un 20/60, hemos cargado un 33.33 %, por eso el 100 que multiplica
-        bici.setBatteryLevel(porcentajeCargado);
+        //int porcentajeCargado = (sumaBateria/bici.getBatteryCapacity()) * 100; // recordar que battery capacity es 60, por lo que si tenemos si hemos cargado un 20/60, hemos cargado un 33.33 %, por eso el 100 que multiplica
+        bici.setBatteryLevel(bici.getBatteryLevel()); // lo recargamos a tope.
+
+        amountCollected += precio;
 
         return precio;
     }

@@ -137,6 +137,14 @@ public class Location
         this.y = y;
     }
 
+    public void addY(int dist){
+        y+=dist;
+    }
+
+    public void addX(int dist){
+        x+=dist;
+    }
+
     public void setX(int x){
         this.x = x;
     }
