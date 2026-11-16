@@ -40,15 +40,19 @@ public class EBikeDemo
     
     /** Constant for selecting the demo scenario, using the {@link DemoType} enumeration. */
     private static final DemoType DEMO=DemoType.SIMPLE;
-    
-        
-    /**
-     * Constructor for objects of class EBikeDemo.
-     * Initializes the company, bikes, and stations lists, and sets the number of 
-     * bikes based on the {@code DEMO} constant before calling {@code reset()}.
-     */
-    public EBikeDemo(ArrayList<ElectricBike> EB, ArrayList<BikeStation> BS, ArrayList<Dock> DK)
+    public EBikeDemo()
     {
+        company = new EBCompany();
+        bikes = new ArrayList<>();
+        stations = new ArrayList<>();
+        reset();
+    }
+
+    public EBikeDemo(ArrayList<ElectricBike> EB, ArrayList<BikeStation> BS, ArrayList<Dock> DK)
+    {   
+        company = new EBCompany();
+        bikes = new ArrayList<>(EB);
+        stations = new ArrayList<>(BS);
         company.reset();
         
         for(ElectricBike eb : EB){
@@ -58,13 +62,8 @@ public class EBikeDemo
         for(BikeStation bs : BS){
             company.addBikeStation(bs);
         }
-
-        
-
-
-
-        //TODO: Complete this code
-
+        configureRoutes();
+        showInitialInfo();
     }
 
     /**
@@ -73,12 +72,10 @@ public class EBikeDemo
      */
     public void run()
     {        
-        //Ejecutamos un número de pasos la simulación.
-        //En cada paso, cada persona de reparto realiza su acción
         for(int step = 0; step < MAXSTEPS; step++) {
             step(step);
         }
-        //TODO: Complete this code (show the final info)
+        showFinalInfo();
     }
 
     /**
@@ -87,9 +84,10 @@ public class EBikeDemo
      */
     public void step(int step)
     {
-        //TODO: Complete this code: for each bike, act
+    for (ElectricBike bike : bikes) {
+           bike.act();
+        }
     }
-
     /**
      * Reset the demo to a starting point.
      * Clears existing bikes and stations, resets the company, and re-creates
@@ -148,7 +146,7 @@ public class EBikeDemo
      * and orders the Docks within each station.
      */
     private void createDocks() {  
-        // TODO: Complete the code here
+        
         for (BikeStation station : stations){
             for (int i=0;i<DEMO.getNumDocksToCreate();i++){
                 // Creates Docks with varying speed and fee based on index 'i'.
@@ -212,8 +210,9 @@ public class EBikeDemo
         System.out.println("( Electric Bikes )");
         System.out.println("(-------------------)");
         
-        // TODO: Complete the code here
-        
+        Collections.sort(bikes, new ComparatorEBArrivingStep());
+        for (ElectricBike bike : bikes) {
+            System.out.println(bike);
         System.out.println("(-------------------)");
         System.out.println("( Bike Stations )");
         System.out.println("(-------------------)");
@@ -226,7 +225,7 @@ public class EBikeDemo
      * The main entry point for running the EBikeDemo simulation.
      * Creates an instance of {@code EBikeDemo} and starts the simulation.
      */
-    public static void main() {
+    public static void main(String[] args){
         EBikeDemo demo = new EBikeDemo();
         demo.run();
     }
