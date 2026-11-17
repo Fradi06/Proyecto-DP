@@ -1,5 +1,6 @@
 
-    import java.util.List;
+    import java.util.ArrayList;
+import java.util.List;
 
 
     /**
@@ -25,7 +26,7 @@
                                     //coste de cada recarga se calcula como los wh cargados por el coste de la recarga 
                                         //tarifa del dock). 
                                             //docks, colección con
-        private List<Dock> docks; // nos lo han dado con list en vez de arraylist?
+        private List<Dock> docks; // array vacio para todos.
         private BikeStation rechargingLocation;
         
 
@@ -39,7 +40,7 @@
          * @param batteryCapacity The maximum capacity of the battery.
          * @throws NullPointerException If company, location, or targetLocation is null.
          */
-        public ElectricBike(EBCompany company, Location location, Location targetLocation, String id, int batteryCapacity, boolean reachedTarged, float cost, List<Dock> docks)
+        public ElectricBike(EBCompany company, Location location, Location targetLocation, String id, int batteryCapacity)
         {
             
             this.company=company;
@@ -47,13 +48,15 @@
             this.targetLocation=targetLocation;
             this.idBike= id;
             this.batteryCapacity=batteryCapacity;
-            batteryLevel = 60; // max
-            this.reachedTarget = reachedTarged;
-            this.idleCount = 0;
-            chargesCount = 0;
-            chargestCost = cost;
-            this.docks = docks;
+            
 
+            // Inicializacio para todos. no hace falta ponerlo en la cabezera
+            batteryLevel = batteryCapacity; // capacidad de bateria que nos den se lo damos a la bici para que esté cargado entero
+            reachedTarget = false;
+            docks = new ArrayList<>();
+            idleCount = 0;
+            chargesCount = 0;
+            chargestCost = 0;
             rechargingLocation = null;
         }
 
@@ -183,6 +186,10 @@
            int totalDistancia = distanceToTheTargetLocation(targetLocation);
            // 5 wh por cada paso que da al moverse por la ciudad.
             return (batteryLevel/5) >= totalDistancia;
+        }
+
+        public List<Dock> getDocks(){
+            return docks;
         }
 
         /**

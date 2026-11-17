@@ -21,15 +21,10 @@ public class BikeStation
     private Location localizacion;
     private ArrayList<Dock> docks;
 
-    public BikeStation(String idStation, Location localizacion, ArrayList<Dock> numDocks) {
+    public BikeStation(String idStation, Location localizacion) {
         this.idStation = idStation;
         this.localizacion = localizacion;
-        this.docks = numDocks;
-
-        for (Dock d : numDocks) {
-            setNewDock(d);
-        }
-
+        docks = new ArrayList<Dock>();
     }
 
     /**
@@ -41,7 +36,7 @@ public class BikeStation
     public Location getLocation(){
         return localizacion;
     }
-
+    
     public ArrayList<Dock> getDocks(){
         return docks;
     }
@@ -49,6 +44,7 @@ public class BikeStation
     public void addDock(Dock esteDock){
         docks.add(esteDock);
     }
+
 
     public Dock findDock(String dockName){
 
@@ -116,12 +112,13 @@ public class BikeStation
             docks.add(d);
         }
     }
+
     /**
      * Set the current location of the charging station.
      * @param location Where it is. Must not be null.
      * @throws NullPointerException If location is null.
-     */
-    //TODO no está bien hecho ni de coña Begoña
+    */
+
     public void setLocation(Location location)
     {
         if(location == null){
@@ -132,7 +129,5 @@ public class BikeStation
         }
         
     }
-
-    //TODO complete the rest of the code
 
 }

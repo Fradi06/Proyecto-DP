@@ -21,11 +21,13 @@ public class EBCompany
     */
 
 
-    public EBCompany(String name, ArrayList<ElectricBike> subscribedBikes, ArrayList<BikeStation> bikeStations)
+    public EBCompany(String name)
     {
-        this.subscribedBikes = subscribedBikes;
         this.name = name;
-        this.bikeStations = bikeStations;
+
+        // def
+        subscribedBikes = new ArrayList<ElectricBike>();
+        bikeStations = new ArrayList<BikeStation>();
     }
 
     /**

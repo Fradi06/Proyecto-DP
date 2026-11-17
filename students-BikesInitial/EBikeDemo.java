@@ -260,6 +260,7 @@ public class EBikeDemo
         Collections.sort(bikes, new ComparatorEBArrivingStep());
         for (ElectricBike bike : bikes) {
             System.out.println(bike);
+
             for (Dock dock : bike.getDocks()) {
                 System.out.println("(Dock: " + dock.getIdDock() + ")");
             }
